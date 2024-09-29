@@ -1,0 +1,27 @@
+<.header>
+  Users <%= @users.id %>
+  <:subtitle>This is a users record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/users/#{@users}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit users</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @users.name %></:item>
+  <:item title="Age"><%= @users.age %></:item>
+</.list>
+
+<.back navigate={~p"/users"}>Back to users</.back>
+
+<.modal :if={@live_action == :edit} id="users-modal" show on_cancel={JS.patch(~p"/users/#{@users}")}>
+  <.live_component
+    module={HelloWeb.UsersLive.FormComponent}
+    id={@users.id}
+    title={@page_title}
+    action={@live_action}
+    users={@users}
+    patch={~p"/users/#{@users}"}
+  />
+</.modal>
